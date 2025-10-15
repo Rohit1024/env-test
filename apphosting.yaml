@@ -1,0 +1,33 @@
+# Settings for Backend (on Cloud Run).
+# See https://firebase.google.com/docs/app-hosting/configure#cloud-run
+runConfig:
+  minInstances: 0
+
+  # Environment variables and secrets.
+env:
+  # Production environment
+  - variable: NODE_ENV
+    value: production
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: SECRET_LOCATION
+    secret: LOCATION
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # Client-side environment variables (NEXT_PUBLIC_*)
+  # These need to be available during BUILD for Next.js static analysis
+  - variable: NEXT_PUBLIC_DEMO_ENV
+    value: "production"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_DEMO_SECRET
+    secret: next-public-demo-secret
+    availability:
+      - BUILD
+      - RUNTIME
